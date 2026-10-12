@@ -546,6 +546,12 @@ noscript p{padding:8rem var(--gut) 4rem;max-width:60ch;margin:0 auto}
  .ln>span{transform:none}
  .pc:hover .pc-vis svg{transform:none}
 }
+
+/* project panels: big gradient + project name */
+.pw{position:absolute;inset:0;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:clamp(1.2rem,2.6vw,2rem);background:radial-gradient(circle at 30% 20%,rgba(79,124,255,.20),transparent 55%),radial-gradient(circle at 80% 90%,rgba(139,92,246,.16),transparent 55%),#0c0d13}
+.pc:hover .pw-h{text-shadow:0 0 34px rgba(139,92,246,.55)}
+.pw-n{position:absolute;left:clamp(1.2rem,2.6vw,2rem);top:clamp(1.1rem,2.2vw,1.6rem);font:400 .7rem var(--fm);letter-spacing:.16em;color:var(--a)}
+.pw-h{margin:0;font:700 clamp(2rem,4.4vw,3.8rem)/.95 var(--fd);letter-spacing:-.045em;color:var(--tx);text-wrap:balance;overflow-wrap:anywhere;transition:text-shadow .6s var(--ease)}
 </style>
 </head>
 <body>
@@ -1004,6 +1010,9 @@ const V={
 };
 
 /* ============ projects ============ */
+const POSTERS=false;if(!POSTERS)P.projects.forEach(p=>{delete p.image;delete p.imageWide;delete p.imageNote;delete p.imageRatio});
+const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+P.projects.forEach((p,i)=>{V['pv_'+p.id]=`<div class="pw"><span class="pw-n">${String(i+1).padStart(2,'0')}</span><h4 class="pw-h">${esc(p.title)}</h4></div>`;p.visual='pv_'+p.id});
 const linkBtns=(p)=>(p.github?`<a class="btn g sm" data-ext href="${p.github}" target="_blank" rel="noopener" data-cursor="OPEN">GitHub</a>`:'')+(p.demo?`<a class="btn g sm" data-ext href="${p.demo}" target="_blank" rel="noopener" data-cursor="OPEN">${p.demoLabel||'Live demo'}</a>`:'');
 const track=$('#track');
 track.innerHTML=P.projects.map((p,i)=>`<article class="pc ${p.image?'has-img':''}" data-id="${p.id}" aria-label="${p.title}"><div class="pc-g">
